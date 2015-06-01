@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!-- ***** BEGIN LICENSE BLOCK *****
+   - Version: MPL 1.1
+   -
+   - The contents of this file are subject to the Mozilla Public License Version
+   - 1.1 (the "License"); you may not use this file except in compliance with
+   - the License. You may obtain a copy of the License at
+   - http://www.mozilla.org/MPL/
+   -
+   - Software distributed under the License is distributed on an "AS IS" basis,
+   - WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+   - for the specific language governing rights and limitations under the
+   - License.
+   -
+   - The Original Code is IRC Auto Downloader.
+   -
+   - The Initial Developer of the Original Code is
+   - David Nilsson.
+   - Portions created by the Initial Developer are Copyright (C) 2010, 2011
+   - the Initial Developer. All Rights Reserved.
+   -
+   - Contributor(s):
+   -
+   - ***** END LICENSE BLOCK ***** -->
+
+<trackerinfo
+	type="ncore"
+	shortName="nCore"
+	longName="nCore"
+	siteName="ncore.cc">
+
+	<settings>
+		<description text="The key from your RSS link"/>
+		<passkey/>
+	</settings>
+
+	<servers>
+		<server
+			network="ircline"
+			serverNames="irc.ircline.org"
+			channelNames="#ncore-bot"
+			announcerNames="nCore"
+			/>
+	</servers>
+
+	<parseinfo>
+		<linepatterns>
+			<!-- [NEW TORRENT in clip] Cory_Mo_ft._Big_K.R.I.T._And_Talib_Kweli-Hold_Up-DDC-720p-x264-2013-MVO > 114.85 MB in 3F > https://ncore.cc/torrents.php?action=details&id=1234567 -->
+			<!-- [NEW TORRENT in clip] Cypress_Hill-Cant_Get_The_Best_of_Me-DVDRip-SVCD-2000-MVS > 81.5 MB in 3F > https://ncore.cc/torrents.php?action=details&id=1234567 -->
+			<!-- [NEW TORRENT in xvidser] Penny.Dreadful.S02E05.HDTV.XviD-FUM > 449.16 MB in 2F > https://ncore.cc/torrents.php?action=details&id=1234567 -->
+			<!-- [NEW TORRENT in xxx_hd] AbbyWinters.15.05.30.Flora.And.Salma.Lesbian.XXX.1080p.MP4-KTR > 2.05 GB in 3F > https://ncore.cc/torrents.php?action=details&id=1234567 -->
+			<!-- [NEW TORRENT in xvid] Kajaki.2014.WEB-DL.x264-RARBG > 920.93 MB in 2F > https://ncore.cc/torrents.php?action=details&id=1234567 -->
+			<extract>
+				<regex value="^\[NEW TORRENT in (.*)\]\s+(.*)\s+>\s+(\d+.\d+)\s+(.+)\s+in\s+(.+)\s+>\s+https?\:\/\/([^\/]+).*id=(\d+)"/>
+				<vars>
+					<var name="category"/>
+					<var name="torrentName"/>
+					<var name="torrentSize"/>
+					<var name="torrentSizeUnit"/>
+					<var name="unknown"/>
+					<var name="$baseUrl"/>
+					<var name="$torrentId"/>
+				</vars>
+			</extract>
+		</linepatterns>
+		<linematched>
+			<var name="torrentUrl">
+				<string value="https://"/>
+				<var name="$baseUrl"/>
+				<string value="/rss_dl.php/id="/>
+				<var name="$torrentId"/>
+				<string value="/key="/>
+				<var name="passkey"/>
+			</var>
+		</linematched>
+		<ignore>
+		</ignore>
+	</parseinfo>
+</trackerinfo>
